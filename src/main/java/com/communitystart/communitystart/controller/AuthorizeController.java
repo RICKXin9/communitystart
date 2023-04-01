@@ -16,21 +16,16 @@ public class AuthorizeController {
 
     @Value("${github.client.id}")
     private String clientId;
-    @Value("${github.client.secret}")
-    private String clientSecret;
-    @Value("${github.redirect.uri}")
-    private String redirectUri;
-
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
-        accessTokenDTO.setRedirect_uri(redirectUri);
+        accessTokenDTO.setRedirect_uri("http://localhost:8080/callback");
         accessTokenDTO.setState(state);
         accessTokenDTO.setClient_id(clientId);
-        accessTokenDTO.setClient_secret(clientSecret);
+        accessTokenDTO.setClient_secret("9703cca70b9975300ff56e4e198a9c55092075df");
         String access_token = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser user = githubProvider.getUser(access_token);
         System.out.println(user.getName());
