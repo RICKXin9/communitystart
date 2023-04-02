@@ -3,6 +3,8 @@ package com.communitystart.communitystart.controller;
 import com.communitystart.communitystart.dto.AccessTokenDTO;
 import com.communitystart.communitystart.dto.GithubUser;
 import com.communitystart.communitystart.provider.GithubProvider;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -17,19 +19,29 @@ public class AuthorizeController {
     @Value("${github.client.id}")
     private String clientId;
 
+    @Value("${github.client.secret}")
+    private String clientSecret;
+    @Value("${github.redirect.uri}")
+    private String redirectUri;
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
-                           @RequestParam(name = "state") String state) {
+                           @RequestParam(name = "state") String state,
+                           HttpServletRequest request) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
-        accessTokenDTO.setRedirect_uri("http://localhost:8080/callback");
+        accessTokenDTO.setRedirect_uri(redirectUri);
         accessTokenDTO.setState(state);
         accessTokenDTO.setClient_id(clientId);
-        accessTokenDTO.setClient_secret("9703cca70b9975300ff56e4e198a9c55092075df");
+        accessTokenDTO.setClient_secret(clientSecret);
         String access_token = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser user = githubProvider.getUser(access_token);
         System.out.println(user.getName());
-        return "index";
+        if (user != null) {
+            //登录成功写入cookie
+            request.getSession().setAttribute("user", user);
+        }
+        return "redirect:/";
     }
 
 
