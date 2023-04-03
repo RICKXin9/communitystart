@@ -2,8 +2,9 @@ package com.communitystart.communitystart.controller;
 
 import com.communitystart.communitystart.dto.AccessTokenDTO;
 import com.communitystart.communitystart.dto.GithubUser;
+import com.communitystart.communitystart.mapper.UserMapper;
+import com.communitystart.communitystart.model.User;
 import com.communitystart.communitystart.provider.GithubProvider;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,10 +12,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.UUID;
+
 @Controller
 public class AuthorizeController {
+
     @Autowired
     private GithubProvider githubProvider;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -35,11 +42,18 @@ public class AuthorizeController {
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
         String access_token = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser user = githubProvider.getUser(access_token);
-        System.out.println(user.getName());
-        if (user != null) {
+        GithubUser githubUser = githubProvider.getUser(access_token);
+        System.out.println(githubUser.getName());
+        if (githubUser != null) {
             //登录成功写入cookie
-            request.getSession().setAttribute("user", user);
+            User user = new User();
+            user.setToken(UUID.randomUUID().toString());
+            user.setName(githubUser.getName());
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            userMapper.insert(user);
+            request.getSession().setAttribute("user", githubUser);
         }
         return "redirect:/";
     }
