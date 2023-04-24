@@ -5,6 +5,7 @@ import com.communitystart.communitystart.dto.GithubUser;
 import com.communitystart.communitystart.mapper.UserMapper;
 import com.communitystart.communitystart.model.User;
 import com.communitystart.communitystart.provider.GithubProvider;
+import com.communitystart.communitystart.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,8 @@ import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private GithubProvider githubProvider;
@@ -46,7 +49,7 @@ public class AuthorizeController {
         String access_token = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(access_token);
         System.out.println(githubUser.getName());
-        if (githubUser != null) {
+        if (githubUser != null && githubUser.getId()!=null) {
             //登录成功写入cookie
             User user = new User();
             String token = UUID.randomUUID().toString();
@@ -55,10 +58,21 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            userMapper.insert(user);
+            user.setAvatarUrl(githubUser.getAvatar_url());
+            userService.createOrUpdate(user);
+
             response.addCookie(new Cookie("token",token));
-//            request.getSession().setAttribute("user", githubUser);
+
         }
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return "redirect:/";
     }
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div th:fragment="navigation">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">WX社区</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active" th:if="${session.user == null}">
+                <a class="nav-link" href="https://github.com/login/oauth/authorize?client_id=76b796f889cb9ca4cc9d&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录 <span class="sr-only">(current)</span></a>
+            </li>
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="#">Link</a>-->
+<!--            </li>-->
+            <li class="nav-item active" th:if="${session.user != null}">
+                <a class="nav-link" href="/publish">发布</a>
+            </li>
+            <li class="nav-item dropdown" th:if="${session.user != null}">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false"
+                   th:text="${session.user.getName()}"></a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/profile/questions">我的问题</a>
+<!--                    <a class="dropdown-item" href="#">个人资料</a>-->
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout">退出登录</a>
+                </div>
+            </li>
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link disabled">Disabled</a>-->
+<!--            </li>-->
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索问题</button>
+        </form>
+    </div>
+</nav>
+</div>
+
+</body>
+</html>

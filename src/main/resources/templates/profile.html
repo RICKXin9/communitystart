@@ -1,32 +1,26 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>WX社区</title>
+    <title th:text="${sectionName}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js" integrity="sha512-7rusk8kGPFynZWu26OKbTeI+QPoYchtxsmPeBqkHIEXJxeun4yJ4ISYe7C6sz9wdxeE1Gk3VxsIWgCZTc+vX3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css" integrity="sha512-rt/SrQ4UNIaGfDyEXZtNcyWvQeOq0QLygHluFQcSjaGB04IxWhal71tKuzP6K8eYXYB6vJV4pHkXcmFGGQ1/0w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/community.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
 
 </head>
 <body>
 <div th:insert = "~{navigation :: navigation}"> </div>
-<div class="container-fluid ">
+<div class="container-fluid">
     <div class="row main">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
-            <h2 class="title-context"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
-                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-                <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
-            </svg> 发现</h2>
+            <h2 class="title-context"><span th:text="${sectionName}"></span></h2>
             <hr>
             <div class="media" th:each="question : ${pagination.questions}">
                 <img class="mr-3 rounded-circle" th:src="${question.user.avatarUrl}">
                 <div class="media-body">
-                    <h5 class="mt-0">
-                        <a th:href="@{'/question/' + ${question.id}}" th:text="${question.title}"></a>
-                    </h5>
-                    <span th:text="${question.description}"></span>
-                    <br>
+                    <h5 class="mt-0" th:text="${question.title}"></h5>
+<!--                    <span th:text="${question.description}"></span>-->
                     <span class="text-desc"><span th:text="${question.commentCount}"></span> 个回复 · <span th:text="${question.viewCount}"></span> 次浏览 · <span th:text="${#dates.format(question.gmtCreate, 'dd/MMM/yyyy HH:mm')}"></span>
                     </span>
                 </div>
@@ -35,26 +29,26 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item" th:if="${pagination.showFirstPage}">
-                        <a class="page-link" href="/?page=1" aria-label="Previous">
+                        <a class="page-link" th:href="@{'/profile/' + ${section}(page = ${1})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
                     <li class="page-item" th:if="${pagination.showPrevious}">
-                        <a class="page-link" th:href="@{/(page = ${pagination.page - 1})}" aria-label="Previous">
+                        <a class="page-link" th:href="@{'/profile/' + ${section}(page = ${pagination.page - 1})}" ria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
 
                     <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page}? 'page-item active': 'page-item'">
-                        <a class="page-link" th:text="${page}" th:href="@{/(page = ${page})}" ></a>
+                        <a class="page-link" th:text="${page}" th:href="@{'/profile/' + ${section}(page = ${page})}"></a>
                     </li>
                     <li class="page-item" th:if="${pagination.showNext}">
-                        <a class="page-link" th:href="@{/(page = ${pagination.page + 1})}" aria-label="Previous">
+                        <a class="page-link" th:href="@{'/profile/' + ${section}(page = ${pagination.page + 1})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <li class="page-item" th:if="${pagination.showEndPage}">
-                        <a class="page-link" th:href="@{/(page = ${pagination.totalPage})}" aria-label="Previous">
+                        <a class="page-link" th:href="@{'/profile/' + ${section}(page = ${pagination.totalPage})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
@@ -63,8 +57,18 @@
             </nav>
 
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
-            <h3 class="title-context">热门话题</h3>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 " >
+            <div class="list-group title-context">
+                <a href="/profile/questions" th:class="${section == 'questions'}? 'list-group-item list-group-item-action active': 'list-group-item list-group-item-action'">
+                    我的问题
+                </a>
+                <a href="/profile/replies" th:class="${section == 'replies'}? 'list-group-item list-group-item-action active': 'list-group-item list-group-item-action'">
+                    最新回复
+                    <span class="badge badge-primary badge-pill">24</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">A third link item</a>
+                <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
+            </div>
 
         </div>
     </div>
