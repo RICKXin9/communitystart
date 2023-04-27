@@ -14,3 +14,7 @@ bootstrapv4 https://v4.bootcss.com/docs/layout/overview/
 Git
 
 Visual Paradigm
+
+## mybatis generator
+
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
