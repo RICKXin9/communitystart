@@ -105,7 +105,7 @@ public class QuestionService {
 
     public QuestionDTO getById(Long id) {
         if (id == null){
-            throw new CustomizeException("你找的问题不存在了，换个问题试试？");
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         Question question = questionMapper.selectByPrimaryKey(id);
         QuestionDTO questionDTO = new QuestionDTO();
@@ -119,6 +119,9 @@ public class QuestionService {
         if (question.getId() == null){
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(System.currentTimeMillis());
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
             questionMapper.insert(question);
         }else {
             // 更新

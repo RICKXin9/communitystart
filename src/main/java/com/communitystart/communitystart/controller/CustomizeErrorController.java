@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/error")
+@RequestMapping("${server.error.path:${error.path:/error}}")
 public class CustomizeErrorController implements ErrorController {
 
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
@@ -20,11 +20,11 @@ public class CustomizeErrorController implements ErrorController {
 
         HttpStatus status = getStatus(request);
         if (status.is4xxClientError()) {
-            model.addAttribute("message", "请求错误，请换一个请求吧");
+            model.addAttribute("message", "你这个请求错了吧，要不换一个姿势？");
 
         }
         if (status.is5xxServerError()) {
-            model.addAttribute("message", "服务器被干烂了，请稍后再试");
+            model.addAttribute("message", "服务器被干烂了，请稍后试试吧。。。");
         }
         return new ModelAndView("error");
     }

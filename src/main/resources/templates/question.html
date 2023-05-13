@@ -2,38 +2,100 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${question.title}"></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js" integrity="sha512-7rusk8kGPFynZWu26OKbTeI+QPoYchtxsmPeBqkHIEXJxeun4yJ4ISYe7C6sz9wdxeE1Gk3VxsIWgCZTc+vX3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css" integrity="sha512-rt/SrQ4UNIaGfDyEXZtNcyWvQeOq0QLygHluFQcSjaGB04IxWhal71tKuzP6K8eYXYB6vJV4pHkXcmFGGQ1/0w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <script crossorigin="anonymous"
+            integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+            referrerpolicy="no-referrer"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha512-7rusk8kGPFynZWu26OKbTeI+QPoYchtxsmPeBqkHIEXJxeun4yJ4ISYe7C6sz9wdxeE1Gk3VxsIWgCZTc+vX3g=="
+            referrerpolicy="no-referrer"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css"
+          integrity="sha512-rt/SrQ4UNIaGfDyEXZtNcyWvQeOq0QLygHluFQcSjaGB04IxWhal71tKuzP6K8eYXYB6vJV4pHkXcmFGGQ1/0w=="
+          referrerpolicy="no-referrer" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/community.css"/>
+    <script src="/js/community.js" type="application/javascript"></script>
+    <script src="https://kit.fontawesome.com/457400dbfa.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
-<div th:insert = "~{navigation :: navigation}"> </div>
+<div th:insert="~{navigation :: navigation}"></div>
 <div class="container-fluid ">
     <div class="row main">
-        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
-            <h4 class="title-context"><span th:text="${question.title}"></span></h4>
-            <span class="text-desc">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+<!--            正文-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4 class="comment"><span th:text="${question.title}"></span></h4>
+                <span class="text-desc">
                 作者：<span th:text="${question.user.name}"></span> |
                 发布时间：<span th:text="${#dates.format(question.gmtCreate, 'dd/MMM/yyyy HH:mm')}"></span> |
                 阅读数：<span th:text="${question.viewCount}"></span>
-            </span>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}">
-            </div>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <span>
-                <a th:href="@{'/publish/'+ ${question.id}}" class="community-menu" th:if="${session.user != null && session.user.id == question.creator}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </span>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}">
+                </div>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <span>
+                <a class="community-menu" th:href="@{'/publish/'+ ${question.id}}"
+                   th:if="${session.user != null && session.user.id == question.creator}">
+                    <svg class="feather feather-edit" fill="none" height="24" stroke="currentColor"
+                         stroke-linecap="round"
+                         stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"
+                         xmlns="http://www.w3.org/2000/svg"><path
+                            d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path
+                            d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                     </svg>
                     编辑
                 </a>
-            </span>
+                </span>
+            </div>
+            <h4>
+                <span th:text="${question.commentCount}"></span> 个回复
+            </h4>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments" th:each = "comment:${comments}">
+                <div class="media ">
+                    <img class="mr-2 rounded" th:src="${question.user.avatarUrl}">
+                    <div class="media-body ">
+                        <h5 class="mt-0">
+                            <span th:text="${question.user.name}"></span>
+                        </h5>
+                        <div th:text="${comment.content}"></div>
+                        <span class="menu">
+                            <i class="fa-solid fa-thumbs-up icon"></i>
+                            <i class="fa-solid fa-comments icon"></i>
+                            <span class="float-right" th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd')}"></span>
+                        </span>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<!--            回复-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id = "comment_section">
+                <div class="media ">
+                    <img class="mr-2 rounded" th:src="${question.user.avatarUrl}">
+                    <div class="media-body media-body-padding">
+                        <h5 class="mt-0">
+                            <span th:text="${question.user.name}"></span>
+                        </h5>
+                    </div>
+                </div>
+                <input type="hidden" id = "question_id" th:value="${question.id}">
+                <form>
+                    <div class="form-group">
+                        <textarea class="form-control comment" id="comment_content" rows="6"></textarea>
+                        <button type="button" class="btn btn-success comment-btn" onclick="post()">回复</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                 <h4 class="title-context">发起人</h4>
 
@@ -47,7 +109,7 @@
                 </div>
             </div>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4 class="title-context">相关问题</h4>
 
             </div>

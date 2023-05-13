@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="css/community.css"/>
 
 </head>
+<script type="application/javascript">
+    // debugger;
+    window.onload = function () {
+        let closable = window.localStorage.getItem("closable");
+        if (closable == "true") {
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
 <body>
 <div th:insert = "~{navigation :: navigation}"> </div>
 <div class="container-fluid ">

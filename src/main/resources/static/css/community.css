@@ -29,6 +29,41 @@ body{
     color: #999;
     /*font-size: 13px;*/
 }
-。jumbotron{
+.jumbotron{
     margin: 50px;
+}
+.rounded {
+    width: 50px;
+    height: 50px;
+}
+.media-body-padding{
+    padding-top: 10px;
+}
+.comment{
+    margin: 10px 0 10px 0;
+
+}
+.comments {
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+.comment-btn {
+    float: right;
+    margin-bottom: 10px;
+}
+.comment-sp {
+    margin-top: 0;
+}
+.menu {
+    color: #999;
+    margin-top: 6px;
+}
+.menu .icon {
+    margin-right: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.menu .icon:hover {
+    color: #499ef3;
 }
