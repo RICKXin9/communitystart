@@ -51,7 +51,7 @@
     update question
     <set>
 
-      <if test="viewCount != null">
+      <if test="commentCount != null">
         comment_count =  comment_count + #{commentCount,jdbcType=INTEGER},
       </if>
 

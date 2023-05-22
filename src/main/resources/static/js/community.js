@@ -80,7 +80,7 @@ function collapseComments(e) {
                         let span_element = $("<span/>", {
                             "class": "menu",
                         }).append($("<span/>", {
-                            "class": "float-right",
+                            "class": "float-left",
                             html: moment(comment.gmtCreate).format('YYYY-MM-DD')
                         }));
                         let media_body_element = $("<div/>", {
