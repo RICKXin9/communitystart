@@ -1,9 +1,9 @@
 package com.communitystart.communitystart.controller;
 
 
-import com.communitystart.communitystart.dto.CommentCreateDTO;
 import com.communitystart.communitystart.dto.CommentDTO;
 import com.communitystart.communitystart.dto.QuestionDTO;
+import com.communitystart.communitystart.enums.CommentTypeEnum;
 import com.communitystart.communitystart.service.CommentService;
 import com.communitystart.communitystart.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class QuestionController {
         QuestionDTO questionDTO = questionService.getById(id);
         // 累加阅读数
         questionService.incView(id);
-        List<CommentDTO> comments = commentService.listByQuestionId(id);
+        List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
         model.addAttribute("question", questionDTO);
         model.addAttribute("comments", comments);
         return "question";

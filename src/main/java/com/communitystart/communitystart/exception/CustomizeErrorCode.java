@@ -7,7 +7,8 @@ public enum CustomizeErrorCode implements MyCustomizeErrorCode{
     NO_LOGIN(2003, "当前操作需要登录，请登录后重试"),
     SYS_ERROR(2004, "服务器被干烂了，请稍后再试"),
     COMMENT_NOT_FOUND(2006, "你找的评论已经不存在了"),
-    TYPE_PARAM_WRONG(2005, "评论类型错误或不存在");
+    TYPE_PARAM_WRONG(2005, "评论类型错误或不存在"),
+    CONTENT_IS_EMPTY(2007, "输入内容不能为空");
 
 
     private String message;
