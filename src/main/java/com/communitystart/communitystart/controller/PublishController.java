@@ -1,10 +1,12 @@
 package com.communitystart.communitystart.controller;
 
+import com.communitystart.communitystart.cache.TagCache;
 import com.communitystart.communitystart.mapper.QuestionMapper;
 import com.communitystart.communitystart.model.Question;
 import com.communitystart.communitystart.model.User;
 import com.communitystart.communitystart.service.QuestionService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +23,8 @@ public class PublishController {
     @Autowired
     private QuestionMapper questionMapper;
     @GetMapping("/publish")
-    public String publish(){
+    public String publish(Model model){
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
@@ -32,6 +35,7 @@ public class PublishController {
         model.addAttribute("title",question.getTitle());
         model.addAttribute("description",question.getDescription());
         model.addAttribute("id", question.getId());
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
@@ -47,6 +51,8 @@ public class PublishController {
         model.addAttribute("tag",tag);
         model.addAttribute("title",title);
         model.addAttribute("description",description);
+        model.addAttribute("tags", TagCache.get());
+
         if (title == null || title == "") {
             model.addAttribute("error","标题不能为空");
             return "publish";
@@ -64,6 +70,12 @@ public class PublishController {
 
         if (user == null) {
             model.addAttribute("error", "用户未登录");
+            return "publish";
+        }
+
+        String invalid = TagCache.filterInvalid(tag);
+        if (StringUtils.isNotBlank(invalid)) {
+            model.addAttribute("error", "输入非法标签数据"+invalid);
             return "publish";
         }
         Question question = new Question();

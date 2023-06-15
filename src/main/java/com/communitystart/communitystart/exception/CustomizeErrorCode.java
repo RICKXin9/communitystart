@@ -8,7 +8,10 @@ public enum CustomizeErrorCode implements MyCustomizeErrorCode{
     SYS_ERROR(2004, "服务器被干烂了，请稍后再试"),
     COMMENT_NOT_FOUND(2006, "你找的评论已经不存在了"),
     TYPE_PARAM_WRONG(2005, "评论类型错误或不存在"),
-    CONTENT_IS_EMPTY(2007, "输入内容不能为空");
+    CONTENT_IS_EMPTY(2007, "输入内容不能为空"),
+    READ_NOTIFICATION_FAIL(2008, "读到别人的信息了"),
+    NOTIFICATION_NOT_FOUND(2009, "未能找到消息"),
+    LINK_NOT_FOUND(2010,"文件连接未能找到");
 
 
     private String message;

@@ -2,6 +2,7 @@ package com.communitystart.communitystart.controller;
 
 import com.communitystart.communitystart.dto.PaginationDTO;
 import com.communitystart.communitystart.model.User;
+import com.communitystart.communitystart.service.NotificationService;
 import com.communitystart.communitystart.service.QuestionService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,8 @@ public class ProfileController {
 
     @Autowired
     private QuestionService questionService;
-
+    @Autowired
+    private NotificationService notificationService;
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action") String action, HttpServletRequest request, Model model,
                           @RequestParam(name = "page", defaultValue = "1") Integer page,
@@ -28,12 +30,17 @@ public class ProfileController {
         if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
+            PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
+            model.addAttribute("pagination", paginationDTO);
         }else if ("replies".equals(action)) {
+            PaginationDTO paginationDTO = notificationService.list(user.getId(), page, size);
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
+            model.addAttribute("pagination", paginationDTO);
+
+
         }
-        PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
-        model.addAttribute("pagination", paginationDTO);
+
         return "profile";
     }
 }

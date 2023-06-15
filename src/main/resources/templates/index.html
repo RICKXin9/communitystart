@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js" integrity="sha512-7rusk8kGPFynZWu26OKbTeI+QPoYchtxsmPeBqkHIEXJxeun4yJ4ISYe7C6sz9wdxeE1Gk3VxsIWgCZTc+vX3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css" integrity="sha512-rt/SrQ4UNIaGfDyEXZtNcyWvQeOq0QLygHluFQcSjaGB04IxWhal71tKuzP6K8eYXYB6vJV4pHkXcmFGGQ1/0w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/community.css"/>
-
+    <script src="https://kit.fontawesome.com/457400dbfa.js" crossorigin="anonymous"></script>
 </head>
 <script type="application/javascript">
     // debugger;
@@ -29,7 +29,7 @@
                 <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
             </svg> 发现</h2>
             <hr>
-            <div class="media" th:each="question : ${pagination.questions}">
+            <div class="media" th:each="question : ${pagination.info}">
                 <img class="mr-3 rounded-circle" th:src="${question.user.avatarUrl}">
                 <div class="media-body">
                     <h5 class="mt-0">
@@ -45,26 +45,26 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item" th:if="${pagination.showFirstPage}">
-                        <a class="page-link" href="/?page=1" aria-label="Previous">
+                        <a class="page-link" th:href="@{/(page = 1,search = ${search})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
                     <li class="page-item" th:if="${pagination.showPrevious}">
-                        <a class="page-link" th:href="@{/(page = ${pagination.page - 1})}" aria-label="Previous">
+                        <a class="page-link" th:href="@{/(page = ${pagination.page - 1},search = ${search})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
 
                     <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page}? 'page-item active': 'page-item'">
-                        <a class="page-link" th:text="${page}" th:href="@{/(page = ${page})}" ></a>
+                        <a class="page-link" th:text="${page}" th:href="@{/(page = ${page}, search = ${search})}" ></a>
                     </li>
                     <li class="page-item" th:if="${pagination.showNext}">
-                        <a class="page-link" th:href="@{/(page = ${pagination.page + 1})}" aria-label="Previous">
+                        <a class="page-link" th:href="@{/(page = ${pagination.page + 1}, search = ${search})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <li class="page-item" th:if="${pagination.showEndPage}">
-                        <a class="page-link" th:href="@{/(page = ${pagination.totalPage})}" aria-label="Previous">
+                        <a class="page-link" th:href="@{/(page = ${pagination.totalPage},search = ${search})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>

@@ -3,6 +3,7 @@ package com.communitystart.communitystart.Interceptor;
 import com.communitystart.communitystart.mapper.UserMapper;
 import com.communitystart.communitystart.model.User;
 import com.communitystart.communitystart.model.UserExample;
+import com.communitystart.communitystart.service.NotificationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,8 @@ import java.util.List;
 public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private NotificationService notificationService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
@@ -31,6 +34,9 @@ public class SessionInterceptor implements HandlerInterceptor {
 
                     if (users.size() != 0){
                         request.getSession().setAttribute("user",users.get(0));
+                        Long unreadCount = notificationService.unReadCount(users.get(0).getId());
+                        request.getSession().setAttribute("unReadMessage",unreadCount);
+
                     }
                     break;
                 }

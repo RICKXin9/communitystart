@@ -1,13 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
+
 <body>
 <div th:fragment="navigation">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">WX社区</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active" th:if="${session.user == null}">
@@ -24,17 +23,24 @@
                    th:text="${session.user.getName()}"></a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="/profile/questions">我的问题</a>
-<!--                    <a class="dropdown-item" href="#">个人资料</a>-->
+                    <!--                    <a class="dropdown-item" href="#">个人资料</a>-->
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/logout">退出登录</a>
                 </div>
             </li>
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link disabled">Disabled</a>-->
-<!--            </li>-->
+            <li class="nav-item active">
+
+                    <a class="nav-link" href="/profile/replies" >
+                        <i class="fa-solid fa-envelope"></i>
+                        通知
+                        <span th:text="${session.unReadMessage}"></span>
+                    </a>
+
+            </li>
+
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline my-2 my-lg-0" action="/" method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="输入你想要搜索的内容" aria-label="Search" name = "search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索问题</button>
         </form>
     </div>

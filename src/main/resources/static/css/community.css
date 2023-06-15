@@ -5,6 +5,19 @@ body{
     margin:35px;
     background-color: white;
 }
+.question-tag {
+    margin-right: 5px;
+}
+.question-related {
+    line-height: 20px;
+    font-size: 18px;
+    padding-left: 14px;
+    list-style: none;
+
+}
+.related-pic {
+    width: 100%;
+}
 .btn-publish{
     margin-bottom: 15px;
     float: right;
